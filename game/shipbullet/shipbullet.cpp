@@ -1,5 +1,5 @@
-#include "ship.h" // Include the header file for SHIP_WIDTH
-#include "shipbullet.h"
+#include "D:\Space Invaders\game\ship\ship.h" // Include the header file for SHIP_WIDTH
+#include "D:\Space Invaders\game\shipbullet\shipbullet.h"
 
 void createBullet(Bullet& shipBullet, float shipX, float shipY) {
     if (!shipBullet.active) { // Ensure only one bullet exists

@@ -1,9 +1,9 @@
 #ifndef SHIPBULLET_H
 #define SHIPBULLET_H
 
-#include "src/include/SDL2/SDL.h"
+#include "D:\Space Invaders\src\include\SDL2\SDL.h"
 #include <vector>
-#include "alien.h"
+#include "D:\Space Invaders\game\alien\alien.h"
 
 extern const int SCREEN_WIDTH; 
 extern const int SCREEN_HEIGHT;

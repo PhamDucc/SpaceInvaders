@@ -1,9 +1,9 @@
-#include "src/include/SDL2/SDL.h"
-#include "src/include/SDL2/SDL_image.h"
-#include "src/include/SDL2/SDL_ttf.h"
-#include "game/ship/ship.h"
-#include "game/alien/alien.h"
-#include "game/shipbullet/shipbullet.h"
+#include "D:\Space Invaders\src\include\SDL2\SDL.h"
+#include "D:\Space Invaders\src\include\SDL2\SDL_image.h"
+#include "D:\Space Invaders\src\include\SDL2\SDL_ttf.h"
+#include "D:\Space Invaders\game\ship\ship.h"
+#include "D:\Space Invaders\game\alien\alien.h"
+#include "D:\Space Invaders\game\shipbullet\shipbullet.h"
 
 #include <iostream>
 #include <chrono>

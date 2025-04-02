@@ -1,7 +1,7 @@
 #ifndef SHIP_H
 #define SHIP_H
 
-#include "src/include/SDL2/SDL.h"
+#include "D:\Space Invaders\src\include\SDL2\SDL.h"
 
 extern const int SCREEN_WIDTH;
 extern const int SCREEN_HEIGHT;

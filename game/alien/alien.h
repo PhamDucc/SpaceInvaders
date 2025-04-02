@@ -1,7 +1,7 @@
 #ifndef ALIEN_H
 #define ALIEN_H
 
-#include "src/include/SDL2/SDL.h"
+#include "D:\Space Invaders\src\include\SDL2\SDL.h"
 #include <vector>
 
 struct Alien {

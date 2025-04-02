@@ -1,5 +1,5 @@
-#include "ship.h"
-#include "src/include/SDL2/SDL_image.h"
+#include "D:\Space Invaders\game\ship\ship.h"
+#include "D:\Space Invaders\src\include\SDL2\SDL_image.h"
 #include <iostream>
 
 using namespace std;
