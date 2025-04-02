@@ -1,9 +1,9 @@
 #include "src/include/SDL2/SDL.h"
 #include "src/include/SDL2/SDL_image.h"
 #include "src/include/SDL2/SDL_ttf.h"
-#include "ship.h"
-#include "shipbullet.h"
-#include "alien.h"
+#include "game/ship/ship.h"
+#include "game/alien/alien.h"
+#include "game/shipbullet/shipbullet.h"
 
 #include <iostream>
 #include <chrono>
@@ -21,8 +21,6 @@ const int SCREEN_HEIGHT = 700;
 const int ALIEN_BULLET_WIDTH = 35; 
 const int ALIEN_BULLET_HEIGHT = 25; 
 const float ALIEN_BULLET_SPEED = 0.15f; 
-
-// Removed duplicate definition of createBullet to avoid redefinition error
 
 SDL_Texture* heartTexture = nullptr;
 
