@@ -4,6 +4,7 @@
 #include "D:\Space Invaders\game\ship\ship.h"
 #include "D:\Space Invaders\game\alien\alien.h"
 #include "D:\Space Invaders\game\shipbullet\shipbullet.h"
+#include "D:\Space Invaders\game\boss\boss.h"
 
 #include <iostream>
 #include <chrono>
@@ -214,7 +215,6 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // Load heart texture
     SDL_Surface* heartSurface = IMG_Load("assets/heart.png");
     if (heartSurface == nullptr) {
         cerr << "Không thể tải ảnh trái tim! Lỗi SDL_image: " << IMG_GetError() << endl;
@@ -226,6 +226,10 @@ int main(int argc, char* argv[]) {
         cerr << "Không thể tạo texture từ surface trái tim! Lỗi SDL: " << SDL_GetError() << endl;
         exit(1);
     }
+
+    bool aliensExhausted = false;
+    Boss boss;
+    bool bossInitialized = false;
 
     bool quit = false;
     SDL_Event e;
@@ -240,9 +244,11 @@ int main(int argc, char* argv[]) {
     auto lastMoveTime = chrono::high_resolution_clock::now();
     auto lastAlienShootTime = chrono::high_resolution_clock::now();
     auto lastShipShootTime = chrono::high_resolution_clock::now();
+    auto lastBossShootTime = chrono::high_resolution_clock::now();
+    float bossShootInterval = 0.5f + static_cast<float>(rand() % 1000) / 1000.0f;
     srand(static_cast<unsigned>(time(0)));
 
-    Bullet shipBullet = {0, 0, false}; // Single bullet for the ship
+    Bullet shipBullet = {0, 0, false};
     vector<Bullet> alienBullets; 
     vector<Alien> aliens;
 
@@ -265,7 +271,7 @@ int main(int argc, char* argv[]) {
                         moveRight = true;
                         break;
                     case SDLK_SPACE:
-                        createBullet(shipBullet, ship.x, ship.y); // Ensure only one bullet is created
+                        createBullet(shipBullet, ship.x, ship.y);
                         break;
                 }
             } else if (e.type == SDL_KEYUP) {
@@ -285,8 +291,9 @@ int main(int argc, char* argv[]) {
         auto currentTime = chrono::high_resolution_clock::now();
         chrono::duration<float, milli> elapsed = currentTime - lastMoveTime;
         chrono::duration<float> alienShootElapsed = currentTime - lastAlienShootTime;
+        chrono::duration<float> bossShootElapsed = currentTime - lastBossShootTime;
 
-        if (elapsed.count() >= ALIEN_DELAY) {
+        if (!aliensExhausted && elapsed.count() >= ALIEN_DELAY) {
             if (moveRightAliens) {
                 alienX += ALIEN_SPEED;
                 if (alienX + 10 * (ALIEN_WIDTH + ALIEN_SPACING) > SCREEN_WIDTH) {
@@ -302,12 +309,10 @@ int main(int argc, char* argv[]) {
             }
             lastMoveTime = currentTime;
 
-            // Update alien positions
             updateAlienPositions(aliens, alienX, alienY);
         }
 
-        // Make thethirdalien shoot bullets randomly
-        if (alienShootElapsed.count() >= 3 + rand() % 3) {
+        if (!aliensExhausted && alienShootElapsed.count() >= 3 + rand() % 3) {
             int randomAlienIndex = rand() % 10;
             if (aliens[randomAlienIndex].active) {
                 alienBullets.push_back({aliens[randomAlienIndex].x + ALIEN_WIDTH / 2 - ALIEN_BULLET_WIDTH / 2, aliens[randomAlienIndex].y + ALIEN_HEIGHT, true, true});
@@ -315,7 +320,12 @@ int main(int argc, char* argv[]) {
             lastAlienShootTime = currentTime;
         }
 
-        // Move alien bullets
+        if (boss.active && bossShootElapsed.count() >= bossShootInterval * 1000) {
+            bossShoot(boss, alienBullets);
+            lastBossShootTime = currentTime;
+            bossShootInterval = 0.5f + static_cast<float>(rand() % 1000) / 1000.0f;
+        }
+
         for (auto& bullet : alienBullets) {
             if (bullet.active) {
                 bullet.y += ALIEN_BULLET_SPEED;
@@ -365,29 +375,44 @@ int main(int argc, char* argv[]) {
                 break;
             }
         }
-        // Respawn aliens if all are destroyed
-        if (allAliensDestroyed) {
-            if (respawnCount < 2) {
-                float lastAlienX = alienX;
-                float lastAlienY = alienY;
-                initializeAliens(aliens, lastAlienX, lastAlienY);
-                respawnCount++;
-            }
+
+        if (allAliensDestroyed && respawnCount < 3 && !aliensExhausted) {
+            float lastAlienX = alienX;
+            float lastAlienY = alienY;
+            initializeAliens(aliens, lastAlienX, lastAlienY);
+            respawnCount++;
         }
 
-        // Move the single ship bullet
+        if (allAliensDestroyed && respawnCount == 3 && !bossInitialized) {
+            aliensExhausted = true;
+            initializeBoss(boss, renderer);
+            bossInitialized = true;
+        }
+
+        if (boss.active) {
+            moveBoss(boss);
+            renderBoss(boss, renderer);
+        }
+
+        if (boss.active && shipBullet.active && aliensExhausted &&
+            shipBullet.x < boss.x + BOSS_WIDTH && shipBullet.x + BULLET_WIDTH > boss.x &&
+            shipBullet.y < boss.y + BOSS_HEIGHT && shipBullet.y + BULLET_HEIGHT > boss.y) {
+            handleBossHit(boss);
+            shipBullet.active = false;
+        }
+
         moveBullet(shipBullet);
 
-        // Check for collisions with aliens
-        checkBulletCollision(shipBullet, aliens); // Ensure aliens is passed correctly
+        if (!aliensExhausted) {
+            checkBulletCollision(shipBullet, aliens);
+        }
 
-        // Check for collisions and handle ship hit
         for (const auto& bullet : alienBullets) {
             if (bullet.active && bullet.isAlienBullet &&
                 bullet.x < ship.x + SHIP_WIDTH && bullet.x + ALIEN_BULLET_WIDTH > ship.x &&
                 bullet.y < ship.y + SHIP_HEIGHT && bullet.y + ALIEN_BULLET_HEIGHT > ship.y) {
-                handleShipHit(ship); // Reduce ship lives
-                break; // Exit loop after handling the hit
+                handleShipHit(ship);
+                break;
             }
         }
 
@@ -396,27 +421,38 @@ int main(int argc, char* argv[]) {
 
         renderShip(ship, renderer);
 
-        // Render the single ship bullet
         renderBullet(shipBullet, renderer, bulletTexture);
 
-        // Render alien bullets
         for (const auto& bullet : alienBullets) {
             if (bullet.active) {
-                SDL_Rect bulletRect = { static_cast<int>(bullet.x), static_cast<int>(bullet.y), ALIEN_BULLET_WIDTH, ALIEN_BULLET_HEIGHT };
+                SDL_Rect bulletRect = {
+                    static_cast<int>(bullet.x),
+                    static_cast<int>(bullet.y),
+                    bullet.isAlienBullet ? ALIEN_BULLET_WIDTH : 2 * ALIEN_BULLET_WIDTH,
+                    bullet.isAlienBullet ? ALIEN_BULLET_HEIGHT : 2 * ALIEN_BULLET_HEIGHT
+                };
                 SDL_RenderCopy(renderer, alienBulletTexture, nullptr, &bulletRect);
             }
         }
 
-        // Render aliens
-        renderAliens(aliens, renderer, firstAlienTexture, secondAlienTexture, thirdAlienTexture);
+        if (!aliensExhausted) {
+            renderAliens(aliens, renderer, firstAlienTexture, secondAlienTexture, thirdAlienTexture);
+        }
 
-        // Render hearts
+        if (boss.active) {
+            renderBoss(boss, renderer);
+        }
+
         renderHearts(ship, renderer, heartTexture);
 
         SDL_RenderPresent(renderer); 
     }
 
     SDL_StopTextInput();
+
+    if (boss.texture) {
+        SDL_DestroyTexture(boss.texture);
+    }
 
     SDL_DestroyTexture(heartTexture);
     SDL_DestroyTexture(alienBulletTexture);

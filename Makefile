@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -Isrc/include -Isrc/include/SDL2 -Igame -Lsrc/lib
 LIBS = -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf
-SRCS = main.cpp game/ship/ship.cpp game/shipbullet/shipbullet.cpp game/alien/alien.cpp
+SRCS = main.cpp game/ship/ship.cpp game/shipbullet/shipbullet.cpp game/alien/alien.cpp game/boss/boss.cpp
 OBJS = $(SRCS:.cpp=.o)
 TARGET = main.exe
 

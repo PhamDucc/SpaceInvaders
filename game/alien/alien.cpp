@@ -9,17 +9,14 @@ const int ALIEN_DELAY = 750;
 
 void initializeAliens(std::vector<Alien>& aliens, float startX, float startY) {
     aliens.clear();
-    // Initialize thethirdalien (1 row)
     for (int j = 0; j < 10; ++j) {
         aliens.push_back({startX + j * (ALIEN_WIDTH + ALIEN_SPACING), startY, true, 2});
     }
-    // Initialize thesecondalien (2 rows)
     for (int i = 0; i < 2; ++i) {
         for (int j = 0; j < 10; ++j) {
             aliens.push_back({startX + j * (ALIEN_WIDTH + ALIEN_SPACING), startY + (i + 1) * (ALIEN_HEIGHT + ALIEN_SPACING), true, 1});
         }
     }
-    // Initialize thefirstalien (2 rows)
     for (int i = 0; i < 2; ++i) {
         for (int j = 0; j < 10; ++j) {
             aliens.push_back({startX + j * (ALIEN_WIDTH + ALIEN_SPACING), startY + (i + 3) * (ALIEN_HEIGHT + ALIEN_SPACING), true, 1});

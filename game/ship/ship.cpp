@@ -4,7 +4,7 @@
 
 using namespace std;
 
-const int SHIP_WIDTH = 70; // Define the value of SHIP_WIDTH
+const int SHIP_WIDTH = 70;
 
 void initializeShip(Ship& ship, SDL_Renderer* renderer) {
     ship.x = (SCREEN_WIDTH - SHIP_WIDTH) / 2;
@@ -43,14 +43,14 @@ void moveShip(Ship& ship, bool moveLeft, bool moveRight) {
 
 void renderHearts(const Ship& ship, SDL_Renderer* renderer, SDL_Texture* heartTexture) {
     for (int i = 0; i < ship.lives; ++i) {
-        SDL_Rect heartRect = { 10 + i * 40, SCREEN_HEIGHT - 50, 30, 30 }; // Position hearts
+        SDL_Rect heartRect = { 10 + i * 40, SCREEN_HEIGHT - 50, 30, 30 };
         SDL_RenderCopy(renderer, heartTexture, nullptr, &heartRect);
     }
 }
 
 void handleShipHit(Ship& ship) {
     if (ship.lives > 0) {
-        ship.lives--; // Reduce lives when hit
+        ship.lives--;
     }
     if (ship.lives == 0) {
         // Handle game over logic here if needed

@@ -1,8 +1,8 @@
-#include "D:\Space Invaders\game\ship\ship.h" // Include the header file for SHIP_WIDTH
+#include "D:\Space Invaders\game\ship\ship.h"
 #include "D:\Space Invaders\game\shipbullet\shipbullet.h"
 
 void createBullet(Bullet& shipBullet, float shipX, float shipY) {
-    if (!shipBullet.active) { // Ensure only one bullet exists
+    if (!shipBullet.active) { 
         shipBullet.x = shipX + SHIP_WIDTH / 2 - BULLET_WIDTH / 2;
         shipBullet.y = shipY;
         shipBullet.active = true;
@@ -27,7 +27,7 @@ void checkBulletCollision(Bullet& shipBullet, std::vector<Alien>& aliens) {
                 shipBullet.active = false;
                 alien.health--;
                 if (alien.health <= 0) {
-                    alien.active = false; // Destroy the alien
+                    alien.active = false; 
                 }
                 break;
             }
