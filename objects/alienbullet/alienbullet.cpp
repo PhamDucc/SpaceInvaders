@@ -1,4 +1,4 @@
-#include "D:\Space Invaders\game\alienbullet\alienbullet.h"
+#include "D:\Space Invaders\objects\alienbullet\alienbullet.h"
 
 const int ALIEN_BULLET_WIDTH = 35;
 const int ALIEN_BULLET_HEIGHT = 25;

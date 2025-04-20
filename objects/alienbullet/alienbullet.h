@@ -3,7 +3,7 @@
 
 #include "D:\Space Invaders\src\include\SDL2\SDL.h"
 #include <vector>
-#include "D:\Space Invaders\game\shipbullet\shipbullet.h"
+#include "D:\Space Invaders\objects\shipbullet\shipbullet.h"
 
 extern const int ALIEN_BULLET_WIDTH;
 extern const int ALIEN_BULLET_HEIGHT; 

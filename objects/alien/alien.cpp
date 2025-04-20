@@ -1,4 +1,4 @@
-#include "D:\Space Invaders\game\alien\alien.h"
+#include "D:\Space Invaders\objects\alien\alien.h"
 #include <iostream>
 
 const int ALIEN_WIDTH = 70;

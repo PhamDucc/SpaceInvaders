@@ -3,7 +3,7 @@
 
 #include "D:\Space Invaders\src\include\SDL2\SDL.h"
 #include <vector>
-#include "D:\Space Invaders\game\alien\alien.h"
+#include "D:\Space Invaders\objects\alien\alien.h"
 
 extern const int SCREEN_WIDTH; 
 extern const int SCREEN_HEIGHT;

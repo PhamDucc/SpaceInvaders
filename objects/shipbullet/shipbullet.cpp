@@ -1,5 +1,5 @@
-#include "D:\Space Invaders\game\ship\ship.h"
-#include "D:\Space Invaders\game\shipbullet\shipbullet.h"
+#include "D:\Space Invaders\objects\ship\ship.h"
+#include "D:\Space Invaders\objects\shipbullet\shipbullet.h"
 
 void createBullet(Bullet& shipBullet, float shipX, float shipY) {
     if (!shipBullet.active) { 
