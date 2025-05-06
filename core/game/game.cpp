@@ -54,6 +54,72 @@ bool showMenu(SDL_Renderer* renderer) {
     return startGame;
 }
 
+void showYouWinScreen(SDL_Renderer* renderer) {
+    SDL_Texture* youWinTexture = loadTexture("assets/youwin.png", renderer);
+    if (!youWinTexture) {
+        SDL_Log("Failed to load youwin.png!");
+        return;
+    }
+
+    auto startTime = std::chrono::high_resolution_clock::now();
+    bool quit = false;
+    SDL_Event e;
+
+    while (!quit) {
+        while (SDL_PollEvent(&e) != 0) {
+            if (e.type == SDL_QUIT) {
+                quit = true;
+            }
+        }
+
+        auto currentTime = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<float> elapsed = currentTime - startTime;
+
+        if (elapsed.count() >= 8.0f) { // Exit after 8 seconds
+            quit = true;
+        }
+
+        SDL_RenderClear(renderer);
+        SDL_RenderCopy(renderer, youWinTexture, nullptr, nullptr);
+        SDL_RenderPresent(renderer);
+    }
+
+    SDL_DestroyTexture(youWinTexture); // Clean up the "You Win" texture
+}
+
+void showGameOverScreen(SDL_Renderer* renderer) {
+    SDL_Texture* gameOverTexture = loadTexture("assets/gameover.png", renderer);
+    if (!gameOverTexture) {
+        SDL_Log("Failed to load gameover.png!");
+        return;
+    }
+
+    auto startTime = std::chrono::high_resolution_clock::now();
+    bool quit = false;
+    SDL_Event e;
+
+    while (!quit) {
+        while (SDL_PollEvent(&e) != 0) {
+            if (e.type == SDL_QUIT) {
+                quit = true;
+            }
+        }
+
+        auto currentTime = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<float> elapsed = currentTime - startTime;
+
+        if (elapsed.count() >= 8.0f) { // Exit after 8 seconds
+            quit = true;
+        }
+
+        SDL_RenderClear(renderer);
+        SDL_RenderCopy(renderer, gameOverTexture, nullptr, nullptr);
+        SDL_RenderPresent(renderer);
+    }
+
+    SDL_DestroyTexture(gameOverTexture); // Clean up the "Game Over" texture
+}
+
 void runGame(SDL_Window* window, SDL_Renderer* renderer) {
     if (!showMenu(renderer)) {
         return; // Exit if the user chooses not to start the game
@@ -199,6 +265,7 @@ void runGame(SDL_Window* window, SDL_Renderer* renderer) {
                     bullet.active = false;
                     ship.lives--;
                     if (ship.lives <= 0) {
+                        showGameOverScreen(renderer); // Show "Game Over" screen for 8 seconds
                         quit = true;
                     }
                 }
@@ -222,6 +289,8 @@ void runGame(SDL_Window* window, SDL_Renderer* renderer) {
 
         if (allAliensDestroyed && respawnCount == 3) {
             aliensExhausted = true;
+            showYouWinScreen(renderer); // Show "You Win" screen for 8 seconds
+            quit = true; // Quit the game after showing the screen
         }
 
         moveBullet(shipBullet);
@@ -233,6 +302,7 @@ void runGame(SDL_Window* window, SDL_Renderer* renderer) {
         for (const auto& alien : aliens) {
             if (alien.active && ship.x < alien.x + ALIEN_WIDTH && ship.x + SHIP_WIDTH > alien.x &&
                 ship.y < alien.y + ALIEN_HEIGHT && ship.y + SHIP_HEIGHT > alien.y) {
+                showGameOverScreen(renderer); // Show "Game Over" screen for 8 seconds
                 quit = true; // End the game if the ship collides with an alien
                 break;
             }
