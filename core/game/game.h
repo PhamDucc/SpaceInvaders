@@ -7,6 +7,7 @@
 #include "D:\Space Invaders\objects\alien\alien.h"
 #include "D:\Space Invaders\objects\shipbullet\shipbullet.h"
 #include "D:\Space Invaders\objects\alienbullet\alienbullet.h"
+#include "D:\Space Invaders\menu\menu.h"
 #include <vector>
 #include <chrono>
 
