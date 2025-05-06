@@ -53,6 +53,9 @@ void handleShipHit(Ship& ship) {
         ship.lives--;
     }
     if (ship.lives == 0) {
-        // Handle game over logic here if needed
     }
 }
+
+
+
+

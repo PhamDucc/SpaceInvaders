@@ -1,6 +1,64 @@
 #include "D:\Space Invaders\core\game\game.h"
 
+bool showMenu(SDL_Renderer* renderer) {
+    bool quit = false;
+    bool startGame = false;
+    SDL_Event e;
+
+    SDL_Texture* bgTexture = loadTexture("assets/outsidebackground.png", renderer);
+    if (!bgTexture) {
+        SDL_Log("Failed to load menu background image!");
+        return false;
+    }
+
+    // Adjusted button positions
+    SDL_Rect startButton = {SCREEN_WIDTH - 660, SCREEN_HEIGHT - 70, 330, 45}; // Bottom-right, slightly offset
+
+    while (!quit) {
+        while (SDL_PollEvent(&e) != 0) {
+            if (e.type == SDL_QUIT) {
+                quit = true;
+            } else if (e.type == SDL_KEYDOWN) {
+                if (e.key.keysym.sym == SDLK_ESCAPE) { // Exit game on ESC key
+                    quit = true;
+                } else if (e.key.keysym.sym == SDLK_RETURN) { // Start game on ENTER key
+                    startGame = true;
+                    quit = true;
+                }
+            } else if (e.type == SDL_MOUSEBUTTONDOWN) {
+                int mouseX = e.button.x;
+                int mouseY = e.button.y;
+
+                // Check if the "Game Start" button is clicked
+                if (mouseX >= startButton.x && mouseX <= startButton.x + startButton.w &&
+                    mouseY >= startButton.y && mouseY <= startButton.y + startButton.h) {
+                    startGame = true;
+                    quit = true;
+                }
+            }
+        }
+
+        SDL_RenderClear(renderer);
+
+        // Render the background image
+        SDL_RenderCopy(renderer, bgTexture, nullptr, nullptr);
+
+        // Render the "Game Start" button border
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderDrawRect(renderer, &startButton); // Draw border for "Game Start"
+
+        SDL_RenderPresent(renderer);
+    }
+
+    SDL_DestroyTexture(bgTexture); // Clean up the background texture
+    return startGame;
+}
+
 void runGame(SDL_Window* window, SDL_Renderer* renderer) {
+    if (!showMenu(renderer)) {
+        return; // Exit if the user chooses not to start the game
+    }
+
     SDL_Texture* bgTexture = loadTexture("assets/background.png", renderer);
     if (!bgTexture) {
         SDL_DestroyRenderer(renderer);
@@ -172,6 +230,14 @@ void runGame(SDL_Window* window, SDL_Renderer* renderer) {
             checkBulletCollision(shipBullet, aliens);
         }
 
+        for (const auto& alien : aliens) {
+            if (alien.active && ship.x < alien.x + ALIEN_WIDTH && ship.x + SHIP_WIDTH > alien.x &&
+                ship.y < alien.y + ALIEN_HEIGHT && ship.y + SHIP_HEIGHT > alien.y) {
+                quit = true; // End the game if the ship collides with an alien
+                break;
+            }
+        }
+
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, bgTexture, nullptr, nullptr);
 
@@ -189,7 +255,7 @@ void runGame(SDL_Window* window, SDL_Renderer* renderer) {
     }
 
     SDL_StopTextInput();
-
+    
     SDL_DestroyTexture(heartTexture);
     SDL_DestroyTexture(alienBulletTexture);
     SDL_DestroyTexture(bulletTexture);
