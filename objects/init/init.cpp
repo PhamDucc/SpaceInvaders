@@ -25,13 +25,6 @@ bool initSDL(SDL_Window*& window, SDL_Renderer*& renderer) {
         return false;
     }
 
-    // Initialize SDL_mixer with specific configuration
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
-        std::cerr << "SDL_mixer không thể khởi tạo! Mix_Error: " << Mix_GetError() << std::endl;
-        return false;
-    }
-
-    // Initialize other SDL subsystems
     if (!IMG_Init(IMG_INIT_PNG)) {
         std::cerr << "SDL_image không thể khởi tạo! IMG_Error: " << IMG_GetError() << std::endl;
         return false;
@@ -57,3 +50,12 @@ bool initSDL(SDL_Window*& window, SDL_Renderer*& renderer) {
     return true;
 }
 
+Mix_Chunk* shipShootSound = nullptr;
+
+void loadSounds() {
+    shipShootSound = Mix_LoadWAV("assets/sounds/shipshoot.wav");
+    if (shipShootSound == nullptr) {
+        std::cerr << "Không thể tải âm thanh shipshoot.wav! Lỗi SDL_mixer: " << Mix_GetError() << std::endl;
+        exit(1);
+    }
+}

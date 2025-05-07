@@ -108,7 +108,7 @@ void runGame(SDL_Window* window, SDL_Renderer* renderer) {
             updateAlienPositions(aliens, alienX, alienY);
         }
 
-        if (!aliensExhausted && alienShootElapsed.count() >= 3 + rand() % 3) {
+        if (!aliensExhausted && alienShootElapsed.count() >= 1 + rand() % 4) {
             int randomAlienIndex = rand() % 10;
             if (aliens[randomAlienIndex].active) {
                 alienBullets.push_back({aliens[randomAlienIndex].x + ALIEN_WIDTH / 2 - ALIEN_BULLET_WIDTH / 2, aliens[randomAlienIndex].y + ALIEN_HEIGHT, true, true});

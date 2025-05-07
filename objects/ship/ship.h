@@ -21,5 +21,6 @@ void renderShip(const Ship& ship, SDL_Renderer* renderer);
 void moveShip(Ship& ship, bool moveLeft, bool moveRight);
 void renderHearts(const Ship& ship, SDL_Renderer* renderer, SDL_Texture* heartTexture);
 void handleShipHit(Ship& ship);
+void shoot();
 
 #endif
