@@ -2,7 +2,7 @@
 
 void runGame(SDL_Window* window, SDL_Renderer* renderer) {
     if (!showMenu(renderer)) {
-        return; // Exit if the user chooses not to start the game
+        return; 
     }
 
     SDL_Texture* bgTexture = loadTexture("assets/background.png", renderer);

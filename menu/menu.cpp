@@ -26,7 +26,7 @@ void showGameOverScreen(SDL_Renderer* renderer) {
         auto currentTime = chrono::high_resolution_clock::now();
         chrono::duration<float> elapsed = currentTime - startTime;
 
-        if (elapsed.count() >= 8.0f) { // Exit after 8 seconds
+        if (elapsed.count() >= 8.0f) { 
             quit = true;
         }
 
@@ -59,7 +59,7 @@ void showYouWinScreen(SDL_Renderer* renderer) {
         auto currentTime = chrono::high_resolution_clock::now();
         chrono::duration<float> elapsed = currentTime - startTime;
 
-        if (elapsed.count() >= 8.0f) { // Exit after 8 seconds
+        if (elapsed.count() >= 8.0f) { 
             quit = true;
         }
 

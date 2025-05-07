@@ -10,4 +10,4 @@ bool showMenu(SDL_Renderer* renderer);
 void showYouWinScreen(SDL_Renderer* renderer);
 void showGameOverScreen(SDL_Renderer* renderer);
 
-#endif // MENU_H
+#endif 

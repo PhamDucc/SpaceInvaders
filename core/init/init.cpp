@@ -3,7 +3,6 @@
 const int SCREEN_WIDTH = 1000;
 const int SCREEN_HEIGHT = 700;
 
-// Remove duplicate definitions of initializeWindow and initializeRenderer
 SDL_Texture* loadTexture(const char* filePath, SDL_Renderer* renderer) {
     SDL_Surface* surface = IMG_Load(filePath);
     if (surface == nullptr) {
