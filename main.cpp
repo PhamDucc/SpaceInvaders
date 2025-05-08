@@ -17,11 +17,12 @@ using namespace std;
 SDL_Texture* heartTexture = nullptr;
 
 int main(int argc, char* argv[]) {
-    SDL_Window* window = initializeWindow();
-    if (!window) return 1;
+    SDL_Window* window = nullptr;
+    SDL_Renderer* renderer = nullptr;
 
-    SDL_Renderer* renderer = initializeRenderer(window);
-    if (!renderer) return 1;
+    if (!initSDL(window, renderer)) {
+        return 1;
+    }
 
     runGame(window, renderer);
 

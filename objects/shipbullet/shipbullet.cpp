@@ -1,5 +1,6 @@
 #include "D:\Space Invaders\objects\ship\ship.h"
 #include "D:\Space Invaders\objects\shipbullet\shipbullet.h"
+#include "D:\Space Invaders\audio\audio.h"
 
 void createBullet(Bullet& shipBullet, float shipX, float shipY) {
     if (!shipBullet.active) { 
@@ -29,6 +30,7 @@ void checkBulletCollision(Bullet& shipBullet, std::vector<Alien>& aliens) {
                 if (alien.health <= 0) {
                     alien.active = false; 
                 }
+                Audio::playAlienHitSound(); // Add sound effect when alien is hit
                 break;
             }
         }

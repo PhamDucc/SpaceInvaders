@@ -1,15 +1,12 @@
 #include "D:\Space Invaders\objects\ship\ship.h"
 #include "D:\Space Invaders\src\include\SDL2\SDL_image.h"
-#include "D:\Space Invaders\init\init.h"
+#include "D:\Space Invaders\core\init\init.h"
+#include "D:\Space Invaders\audio\audio.h"
 #include <iostream>
 
 using namespace std;
 
 const int SHIP_WIDTH = 70;
-
-Mix_Chunk* shipShootSound = nullptr;
-
-extern Mix_Chunk* shipShootSound;
 
 void initializeShip(Ship& ship, SDL_Renderer* renderer) {
     ship.x = (SCREEN_WIDTH - SHIP_WIDTH) / 2;
@@ -26,13 +23,6 @@ void initializeShip(Ship& ship, SDL_Renderer* renderer) {
     SDL_FreeSurface(shipSurface);
     if (ship.texture == nullptr) {
         cerr << "Không thể tạo texture từ surface tàu vũ trụ! Lỗi SDL: " << SDL_GetError() << endl;
-        exit(1);
-    }
-
-    // Load ship shoot sound
-    shipShootSound = Mix_LoadWAV("assets/sounds/shipshoot.wav");
-    if (shipShootSound == nullptr) {
-        cerr << "Không thể tải âm thanh bắn! Lỗi SDL_mixer: " << Mix_GetError() << endl;
         exit(1);
     }
 }
@@ -69,7 +59,5 @@ void handleShipHit(Ship& ship) {
 }
 
 void shoot() {
-    if (shipShootSound != nullptr && Mix_PlayChannel(-1, shipShootSound, 0) == -1) {
-        std::cerr << "Không thể phát âm thanh bắn! Lỗi SDL_mixer: " << Mix_GetError() << std::endl;
-    }
+    Audio::playShipShootSound();
 }

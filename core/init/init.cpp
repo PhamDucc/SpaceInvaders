@@ -1,4 +1,6 @@
 #include "D:\Space Invaders\core\init\init.h"
+#include "D:\Space Invaders\audio\audio.h"
+#include <iostream>
 
 const int SCREEN_WIDTH = 1000;
 const int SCREEN_HEIGHT = 700;
@@ -20,37 +22,38 @@ SDL_Texture* loadTexture(const char* filePath, SDL_Renderer* renderer) {
 }
 
 bool initSDL(SDL_Window*& window, SDL_Renderer*& renderer) {
+    // Initialize SDL with audio support
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
-        std::cerr << "SDL không thể khởi tạo! SDL_Error: " << SDL_GetError() << std::endl;
+        std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
         return false;
     }
 
-    // Initialize SDL_mixer with specific configuration
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
-        std::cerr << "SDL_mixer không thể khởi tạo! Mix_Error: " << Mix_GetError() << std::endl;
+    // Initialize SDL_mixer through Audio class
+    if (!Audio::init()) {
         return false;
     }
 
-    // Initialize other SDL subsystems
+    // Initialize SDL_image
     if (!IMG_Init(IMG_INIT_PNG)) {
-        std::cerr << "SDL_image không thể khởi tạo! IMG_Error: " << IMG_GetError() << std::endl;
+        std::cerr << "SDL_image could not initialize! IMG_Error: " << IMG_GetError() << std::endl;
         return false;
     }
 
+    // Initialize SDL_ttf
     if (TTF_Init() == -1) {
-        std::cerr << "SDL_ttf không thể khởi tạo! TTF_Error: " << TTF_GetError() << std::endl;
+        std::cerr << "SDL_ttf could not initialize! TTF_Error: " << TTF_GetError() << std::endl;
         return false;
     }
 
-    window = SDL_CreateWindow("Space Shooter", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
+    // Create window and renderer using window.h functions
+    window = initializeWindow();
     if (!window) {
-        std::cerr << "Không thể tạo cửa sổ! SDL_Error: " << SDL_GetError() << std::endl;
         return false;
     }
 
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    renderer = initializeRenderer(window);
     if (!renderer) {
-        std::cerr << "Không thể tạo renderer! SDL_Error: " << SDL_GetError() << std::endl;
+        SDL_DestroyWindow(window);
         return false;
     }
 

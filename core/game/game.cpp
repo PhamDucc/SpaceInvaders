@@ -69,6 +69,7 @@ void runGame(SDL_Window* window, SDL_Renderer* renderer) {
                         break;
                     case SDLK_SPACE:
                         createBullet(shipBullet, ship.x, ship.y);
+                        shoot(); // Add shooting sound when bullet is created
                         break;
                 }
             } else if (e.type == SDL_KEYUP) {
@@ -214,6 +215,10 @@ void runGame(SDL_Window* window, SDL_Renderer* renderer) {
     SDL_DestroyTexture(firstAlienTexture);
     SDL_DestroyTexture(ship.texture);
     SDL_DestroyTexture(bgTexture);
+
+    // Close audio before renderer and window
+    Audio::close();
+    
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     IMG_Quit();
