@@ -5,6 +5,9 @@ void runGame(SDL_Window* window, SDL_Renderer* renderer) {
         return; 
     }
 
+    // Start playing background music
+    Audio::playBackgroundMusic();
+
     SDL_Texture* bgTexture = loadTexture("assets/background.png", renderer);
     if (!bgTexture) {
         SDL_DestroyRenderer(renderer);
@@ -15,7 +18,7 @@ void runGame(SDL_Window* window, SDL_Renderer* renderer) {
 
     Ship ship;
     initializeShip(ship, renderer);
-
+    
     SDL_Texture* firstAlienTexture = loadTexture("assets/thefirstalien.png", renderer);
     SDL_Texture* secondAlienTexture = loadTexture("assets/thesecondalien.png", renderer);
     SDL_Texture* thirdAlienTexture = loadTexture("assets/thethirdalien.png", renderer);
@@ -37,7 +40,7 @@ void runGame(SDL_Window* window, SDL_Renderer* renderer) {
 
     bool moveLeft = false;
     bool moveRight = false;
-
+    
     float alienX = 0;
     float alienY = 0;
     bool moveRightAliens = true;

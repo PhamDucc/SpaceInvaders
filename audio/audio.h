@@ -11,11 +11,14 @@ public:
     static bool loadSound(const char* path);
     static void playShipShootSound();
     static void playAlienHitSound();
+    static void playBackgroundMusic();
+    static void stopBackgroundMusic();
     static void cleanup();
 
 private:
     static Mix_Chunk* shipShootSound;
     static Mix_Chunk* alienHitSound;
+    static Mix_Music* backgroundMusic;
     static bool initialized;
 };
 

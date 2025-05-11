@@ -3,6 +3,7 @@
 
 Mix_Chunk* Audio::shipShootSound = nullptr;
 Mix_Chunk* Audio::alienHitSound = nullptr;
+Mix_Music* Audio::backgroundMusic = nullptr;
 bool Audio::initialized = false;
 
 bool Audio::init() {
@@ -26,6 +27,15 @@ bool Audio::init() {
     }
     
     std::cout << "SDL_mixer initialized successfully" << std::endl;
+
+    // Load background music
+    backgroundMusic = Mix_LoadMUS("assets/sounds/nhacnen.wav");
+    if (!backgroundMusic) {
+        std::cerr << "Failed to load background music! Mix_Error: " << Mix_GetError() << std::endl;
+        std::cerr << "Attempted to load from path: assets/sounds/nhacnen.wav" << std::endl;
+    } else {
+        std::cout << "Background music loaded successfully" << std::endl;
+    }
 
     // Try to load sound with error details
     shipShootSound = Mix_LoadWAV("assets/sounds/shipshoot.wav");
@@ -53,9 +63,28 @@ bool Audio::init() {
     return true;
 }
 
+void Audio::playBackgroundMusic() {
+    if (initialized && backgroundMusic) {
+        if (Mix_PlayingMusic() == 0) {
+            if (Mix_PlayMusic(backgroundMusic, -1) < 0) {
+                std::cerr << "Failed to play background music! Mix_Error: " << Mix_GetError() << std::endl;
+            } else {
+                std::cout << "Background music started playing" << std::endl;
+            }
+        }
+    }
+}
+
+void Audio::stopBackgroundMusic() {
+    if (Mix_PlayingMusic()) {
+        Mix_HaltMusic();
+    }
+}
+
 void Audio::close() {
     cleanup();
     Mix_CloseAudio();
+    Mix_Quit();
     initialized = false;
 }
 
@@ -100,5 +129,9 @@ void Audio::cleanup() {
     if (alienHitSound) {
         Mix_FreeChunk(alienHitSound);
         alienHitSound = nullptr;
+    }
+    if (backgroundMusic) {
+        Mix_FreeMusic(backgroundMusic);
+        backgroundMusic = nullptr;
     }
 }
