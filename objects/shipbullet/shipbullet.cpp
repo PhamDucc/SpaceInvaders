@@ -30,7 +30,7 @@ void checkBulletCollision(Bullet& shipBullet, std::vector<Alien>& aliens) {
                 if (alien.health <= 0) {
                     alien.active = false; 
                 }
-                Audio::playAlienHitSound(); // Add sound effect when alien is hit
+                Audio::playAlienHitSound();
                 break;
             }
         }

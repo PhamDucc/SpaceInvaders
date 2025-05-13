@@ -22,4 +22,4 @@ private:
     static bool initialized;
 };
 
-#endif // AUDIO_H
+#endif

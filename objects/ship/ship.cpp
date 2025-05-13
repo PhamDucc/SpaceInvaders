@@ -13,16 +13,15 @@ void initializeShip(Ship& ship, SDL_Renderer* renderer) {
     ship.y = SCREEN_HEIGHT - SHIP_HEIGHT - 10;
     ship.lives = 3;
 
-    SDL_Surface* shipSurface = IMG_Load("assets/ship.png");
-    if (shipSurface == nullptr) {
-        cerr << "Không thể tải ảnh tàu vũ trụ! Lỗi SDL_image: " << IMG_GetError() << endl;
+    SDL_Surface* shipSurface = IMG_Load("assets/ship.png");    if (shipSurface == nullptr) {
+        cerr << "Could not load spaceship image! SDL_image Error: " << IMG_GetError() << endl;
         exit(1);
     }
 
     ship.texture = SDL_CreateTextureFromSurface(renderer, shipSurface);
     SDL_FreeSurface(shipSurface);
     if (ship.texture == nullptr) {
-        cerr << "Không thể tạo texture từ surface tàu vũ trụ! Lỗi SDL: " << SDL_GetError() << endl;
+        cerr << "Could not create texture from spaceship surface! SDL Error: " << SDL_GetError() << endl;
         exit(1);
     }
 }

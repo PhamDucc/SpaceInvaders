@@ -11,16 +11,13 @@ bool Audio::init() {
         return true;
     }
 
-    // Initialize SDL_mixer with specific flags for WAV support
-    int flags = MIX_INIT_MP3 | MIX_INIT_OGG;  // Add basic audio format support
+    int flags = MIX_INIT_MP3 | MIX_INIT_OGG;
     int initted = Mix_Init(flags);
 
     if ((initted & flags) != flags) {
         std::cerr << "Mix_Init failed to initialize required loaders! Mix_Error: " << Mix_GetError() << std::endl;
-        // Continue anyway as WAV might still work
     }
 
-    // Open audio device
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
         std::cerr << "SDL_mixer initialization failed! Mix_Error: " << Mix_GetError() << std::endl;
         return false;
@@ -28,7 +25,6 @@ bool Audio::init() {
     
     std::cout << "SDL_mixer initialized successfully" << std::endl;
 
-    // Load background music
     backgroundMusic = Mix_LoadMUS("assets/sounds/nhacnen.wav");
     if (!backgroundMusic) {
         std::cerr << "Failed to load background music! Mix_Error: " << Mix_GetError() << std::endl;
@@ -37,11 +33,9 @@ bool Audio::init() {
         std::cout << "Background music loaded successfully" << std::endl;
     }
 
-    // Try to load sound with error details
     shipShootSound = Mix_LoadWAV("assets/sounds/shipshoot.wav");
     if (!shipShootSound) {
         std::cerr << "Failed to load shipshoot.wav! Mix_Error: " << Mix_GetError() << std::endl;
-        // Print additional debug info
         std::cerr << "Attempted to load from path: assets/sounds/shipshoot.wav" << std::endl;
         Mix_CloseAudio();
         return false;
@@ -91,7 +85,7 @@ void Audio::close() {
 bool Audio::loadSound(const char* path) {
     Mix_Chunk* sound = Mix_LoadWAV(path);
     if (!sound) {
-        std::cerr << "Không thể tải âm thanh " << path << "! Mix_Error: " << Mix_GetError() << std::endl;
+        std::cerr << "Could not load sound " << path << "! Mix_Error: " << Mix_GetError() << std::endl;
         return false;
     }
     return true;

@@ -5,7 +5,7 @@
 #include <vector>
 #include "D:\Space Invaders\objects\alien\alien.h"
 
-extern const int SCREEN_WIDTH; 
+extern const int SCREEN_WIDTH;
 extern const int SCREEN_HEIGHT;
 extern const int SHIP_WIDTH;
 extern const int ALIEN_WIDTH;

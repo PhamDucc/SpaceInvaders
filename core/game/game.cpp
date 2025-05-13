@@ -5,8 +5,7 @@ void runGame(SDL_Window* window, SDL_Renderer* renderer) {
         return; 
     }
 
-    // Start playing background music
-    Audio::playBackgroundMusic();
+        Audio::playBackgroundMusic();
 
     SDL_Texture* bgTexture = loadTexture("assets/background.png", renderer);
     if (!bgTexture) {
@@ -69,10 +68,9 @@ void runGame(SDL_Window* window, SDL_Renderer* renderer) {
                         break;
                     case SDLK_d:
                         moveRight = true;
-                        break;
-                    case SDLK_SPACE:
+                        break;                    case SDLK_SPACE:
                         createBullet(shipBullet, ship.x, ship.y);
-                        shoot(); // Add shooting sound when bullet is created
+                        shoot();
                         break;
                 }
             } else if (e.type == SDL_KEYUP) {
@@ -219,8 +217,7 @@ void runGame(SDL_Window* window, SDL_Renderer* renderer) {
     SDL_DestroyTexture(ship.texture);
     SDL_DestroyTexture(bgTexture);
 
-    // Close audio before renderer and window
-    Audio::close();
+        Audio::close();
     
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
