@@ -6,7 +6,7 @@
 
 class Audio {
 public:
-    static bool init();
+    static bool init();     // khởi tạo hệ thống âm thanh
     static void close();
     static bool loadSound(const char* path);
     static void playShipShootSound();

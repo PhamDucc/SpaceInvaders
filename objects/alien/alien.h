@@ -10,11 +10,11 @@ struct Alien {
     int health;
 };
 
-extern const int ALIEN_WIDTH;
-extern const int ALIEN_HEIGHT;
-extern const int ALIEN_SPACING;
-extern const float ALIEN_SPEED;
-extern const int ALIEN_DELAY;
+const int ALIEN_WIDTH = 70;
+const int ALIEN_HEIGHT = 60;
+const int ALIEN_SPACING = 2;
+const float ALIEN_SPEED = 10.0f;
+const int ALIEN_DELAY = 750;
 
 void initializeAliens(std::vector<Alien>& aliens, float startX, float startY);
 void renderAliens(const std::vector<Alien>& aliens, SDL_Renderer* renderer, SDL_Texture* firstAlienTexture, SDL_Texture* secondAlienTexture, SDL_Texture* thirdAlienTexture);

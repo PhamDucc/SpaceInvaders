@@ -1,9 +1,5 @@
 #include "D:\Space Invaders\objects\alienbullet\alienbullet.h"
 
-const int ALIEN_BULLET_WIDTH = 35;
-const int ALIEN_BULLET_HEIGHT = 25;
-const float ALIEN_BULLET_SPEED = 0.15f;
-
 void moveAlienBullets(std::vector<Bullet>& alienBullets, int screenHeight) {
     for (auto& bullet : alienBullets) {
         if (bullet.active) {

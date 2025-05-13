@@ -6,7 +6,7 @@
 extern const int SCREEN_WIDTH;
 extern const int SCREEN_HEIGHT;
 
-extern const int SHIP_WIDTH;
+const int SHIP_WIDTH = 70;
 const int SHIP_HEIGHT = 70;
 const float SHIP_SPEED = 0.1f;
 

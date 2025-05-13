@@ -1,12 +1,6 @@
 #include "D:\Space Invaders\objects\alien\alien.h"
 #include <iostream>
 
-const int ALIEN_WIDTH = 70;
-const int ALIEN_HEIGHT = 60;
-const int ALIEN_SPACING = 2;
-const float ALIEN_SPEED = 10.0f;
-const int ALIEN_DELAY = 750;
-
 void initializeAliens(std::vector<Alien>& aliens, float startX, float startY) {
     aliens.clear();
     for (int j = 0; j < 10; ++j) {

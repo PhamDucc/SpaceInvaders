@@ -8,8 +8,8 @@
 #include "D:\Space Invaders\core\window\window.h"
 #include <iostream>
 
-extern const int SCREEN_WIDTH;
-extern const int SCREEN_HEIGHT;
+const int SCREEN_WIDTH = 1000;
+const int SCREEN_HEIGHT = 700;
 
 SDL_Texture* loadTexture(const char* filePath, SDL_Renderer* renderer);
 bool initSDL(SDL_Window*& window, SDL_Renderer*& renderer);

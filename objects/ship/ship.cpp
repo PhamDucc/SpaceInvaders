@@ -6,8 +6,6 @@
 
 using namespace std;
 
-const int SHIP_WIDTH = 70;
-
 void initializeShip(Ship& ship, SDL_Renderer* renderer) {
     ship.x = (SCREEN_WIDTH - SHIP_WIDTH) / 2;
     ship.y = SCREEN_HEIGHT - SHIP_HEIGHT - 10;
